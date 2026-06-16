@@ -1,7 +1,7 @@
-$APP_NAME = "rune"
-$REPO_URL = "https://github.com/rune-runtime/rune"
-$ASSET_BASE_URL = "https://github.com/rune-runtime/rune/releases/download"
-$INSTALL_DIR = "$env:ProgramFiles\rune"
+$APP_NAME = "jumpjet"
+$REPO_URL = "https://github.com/jumpjet-runtime/jumpjet"
+$ASSET_BASE_URL = "https://github.com/jumpjet-runtime/jumpjet/releases/download"
+$INSTALL_DIR = "$env:ProgramFiles\jumpjet"
 
 function Download-And-Extract {
 
