@@ -1,97 +1,122 @@
 <!doctype html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100..700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp&display=swap" rel="stylesheet" />
-    <link rel="icon" href="favicon.png" type="image/png">
-    <title>Rune > Getting Started</title>
-    <style type="text/css">
-        @font-face {
-            font-family: 'Druk Wide Bold';
-            font-style: normal;
-            font-weight: normal;
-            src: local('Druk Wide Bold Bold'), url('DrukWideBold.woff') format('woff');
-        }
-    </style>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <title>Jumpjet - Getting Started</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'brand-primary': '#D83A3C',
-                        'surface-0': '#1D1B1B',
-                        'surface-2': '#4D4C4A',
+                        orange: '#FF4500',
+                        charcoal: '#1A1A1A',
+                        'charcoal-2': '#262626',
+                        offwhite: '#F2F2EF',
                     },
                     fontFamily: {
-                        mono: ['Roboto Mono'],
-                        wide: ['Druk Wide Bold']
+                        mono: ['"Hurme FIN Mono 1b"', 'ui-monospace', 'monospace'],
+                        wide: ['"Hurme FIN 1b Extended"', 'sans-serif']
                     },
-                    fontWeight: {
-                        wide: 700
-                    }
+                    fontWeight: { wide: 700 }
                 }
             }
         }
     </script>
+
+    <style type="text/css">
+        @font-face {
+            font-family: 'Hurme FIN 1b Extended';
+            font-style: normal;
+            font-weight: normal;
+            font-display: swap;
+            src: url('HurmeFIN1b-ExtendedBlack.woff2') format('woff2'),
+                 url('HurmeFIN1b-ExtendedBlack.woff') format('woff');
+        }
+
+        @font-face {
+            font-family: 'Hurme FIN Mono 1b';
+            font-style: normal;
+            font-weight: normal;
+            font-display: swap;
+            src: url('HurmeFINMono1b-Medium.woff2') format('woff2'),
+                 url('HurmeFINMono1b-Medium.woff') format('woff');
+        }
+
+        html { scroll-behavior: smooth; }
+        body { background-color: #F2F2EF; }
+
+        .btn-press { transition: transform .12s ease, box-shadow .12s ease; box-shadow: 0 1px 0 rgba(0,0,0,.25); }
+        .btn-press:hover { transform: translateY(-1px); }
+        .btn-press:active { transform: translateY(1px); box-shadow: none; }
+    </style>
 </head>
 
-<body class="bg-surface-0 text-[#E9E6E1] my-4 sm:my-12 bg-[linear-gradient(#1D1B1BEE,#1D1B1BEE),url('perlin.png')] bg-repeat bg-[length:35%]">
-    <div class="container max-w-screen-lg mx-auto grid gap-12">
-        <div class="py-4 grid gap-6 p-4 sm:py-4">
-            <a href="index.html" class="mb-4"><img src="logo.svg" class="h-8"></a>
-            <h1 class="font-wide text-2xl uppercase">
-                Getting Started
-            </h1>
-            <p class="font-mono text-sm lowercase">
-                Get started with Rune in less than 60 seconds.
-            </p>
-        </div>
-        <div class="p-4 sm:py-4">
-            <h3 class="font-wide uppercase text-lg"><span class="text-brand-primary">1.</span> Install</h3>
-            <p class="font-mono text-sm lowercase leading-relaxed py-3">
-                Run the installer to get the latest build of the Rune CLI.
-            </p>
-            <span class="text-sm font-mono text-white">
-                <span class="text-neutral-600 select-none">$ </span>curl -fsSL https://rune.sh/install.sh | bash
-            </span>
-        </div>
+<body class="text-charcoal font-mono antialiased">
 
-        <div class="p-4 sm:py-4">
-            <h3 class="font-wide uppercase text-lg"><span class="text-brand-primary">2.</span> Create a new project</h3>
-            <p class="font-mono text-sm lowercase leading-relaxed py-3">
-                Use the Rune CLI to create a new project. Choose from the list of available templates.
-            </p>
-            <span class="text-sm font-mono text-white">
-                <span class="text-neutral-600 select-none">$ </span>rune new game --template hello-rust
-            </span>
-        </div>
+    <!-- HERO -->
+    <section class="bg-orange text-white">
+        <div class="w-[90%] mx-auto pt-20 sm:pt-28 pb-16 sm:pb-24">
+            <a href="index.html" class="inline-block font-wide uppercase text-white/90 text-lg leading-none hover:text-white transition-colors">Jumpjet</a>
 
-        <div class="p-4 sm:py-4">
-            <h3 class="font-wide uppercase text-lg"><span class="text-brand-primary">3.</span> Run your new game</h3>
-            <p class="font-mono text-sm lowercase leading-relaxed py-3">
-                Your Rune project is ready for action. Try <code class="text-sm font-mono font-bold text-white">rune docs</code> to see the entire runtime API.
-            </p>
-            <span class="text-sm font-mono text-white">
-                <span class="text-neutral-600 select-none">$ </span>rune run
-            </span>
+            <h1 class="mt-12 font-wide uppercase text-white text-3xl sm:text-5xl leading-none">Getting Started</h1>
+            <p class="mt-8 text-sm sm:text-base text-charcoal lowercase">get started with jumpjet in less than 60 seconds.</p>
         </div>
+    </section>
 
-        <!-- <div>
-            <h2 class="font-wide uppercase text-xl">Building a Rune library</h2>
-            <p class="font-mono text-sm lowercase leading-relaxed py-3 mb-6">
-                You can also use Rune to build and package libraries which can be used by other Rune developers. Write your library in your preferred language and it can be imported by any language that supports .wit bindings.
-            </p>
-            <span class="text-sm font-mono text-white">
-                <span class="text-neutral-600 select-none">$ </span>rune new package --template hello-js
-            </span>
-        </div> -->
-    </div>
+    <!-- STEPS -->
+    <section class="relative -mt-8 sm:-mt-10 rounded-t-[24px] bg-offwhite">
+        <div class="w-[90%] mx-auto pt-20 sm:pt-28 pb-24 sm:pb-32">
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+
+                <!-- 01 -->
+                <article class="rounded-md border border-charcoal/70 p-7 flex flex-col">
+                    <p class="text-[10px] uppercase text-orange">Step 01</p>
+                    <h3 class="mt-4 font-wide uppercase text-charcoal text-xl sm:text-2xl leading-none">Install</h3>
+                    <p class="mt-5 mb-6 text-[0.7rem] text-charcoal/75 leading-relaxed flex-1">Run the installer to get the latest build of the Jumpjet CLI.</p>
+                    <div class="bg-charcoal text-white rounded-lg px-4 py-3 text-[0.7rem] sm:text-xs overflow-x-auto whitespace-nowrap">
+                        <span class="text-orange select-none">$&nbsp;</span>curl -fsSL https://jumpjet.dev/install.sh | bash
+                    </div>
+                </article>
+
+                <!-- 02 -->
+                <article class="rounded-md border border-charcoal/70 p-7 flex flex-col">
+                    <p class="text-[10px] uppercase text-orange">Step 02</p>
+                    <h3 class="mt-4 font-wide uppercase text-charcoal text-xl sm:text-2xl leading-none">Create project</h3>
+                    <p class="mt-5 mb-6 text-[0.7rem] text-charcoal/75 leading-relaxed flex-1">Use the Jumpjet CLI to create a new project. Choose from the list of available templates.</p>
+                    <div class="bg-charcoal text-white rounded-lg px-4 py-3 text-[0.7rem] sm:text-xs overflow-x-auto whitespace-nowrap">
+                        <span class="text-orange select-none">$&nbsp;</span>jumpjet new game --template hello-rust
+                    </div>
+                </article>
+
+                <!-- 03 -->
+                <article class="rounded-md border border-charcoal/70 p-7 flex flex-col">
+                    <p class="text-[10px] uppercase text-orange">Step 03</p>
+                    <h3 class="mt-4 font-wide uppercase text-charcoal text-xl sm:text-2xl leading-none">Run your game</h3>
+                    <p class="mt-5 mb-6 text-[0.7rem] text-charcoal/75 leading-relaxed flex-1">Your Jumpjet project is ready for action. Try <code class="text-charcoal font-bold">jumpjet docs</code> to see the entire runtime API.</p>
+                    <div class="bg-charcoal text-white rounded-lg px-4 py-3 text-[0.7rem] sm:text-xs overflow-x-auto whitespace-nowrap">
+                        <span class="text-orange select-none">$&nbsp;</span>jumpjet run
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-offwhite border-t border-charcoal/15">
+        <div class="w-[90%] mx-auto py-8 flex flex-col sm:flex-row gap-3 sm:items-center justify-between">
+            <span class="font-wide uppercase text-charcoal text-lg">Jumpjet</span>
+            <div class="flex flex-col sm:flex-row gap-1 sm:gap-6 text-xs uppercase text-charcoal/50">
+                <a href="https://github.com/rune-runtime/rune" class="hover:text-orange transition-colors">GitHub</a>
+                <span>2026 &copy; Jumpjet.dev</span>
+                <span>by <a href="https://x.com/lwansbrough" class="text-charcoal/70 hover:text-orange transition-colors">@lwansbrough</a></span>
+            </div>
+        </div>
+    </footer>
 </body>
 
 </html>
