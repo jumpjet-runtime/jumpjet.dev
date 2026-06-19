@@ -3,7 +3,7 @@
 APP_NAME="jumpjet"
 REPO_URL="https://github.com/jumpjet-runtime/jumpjet"
 ASSET_BASE_URL="https://github.com/jumpjet-runtime/jumpjet/releases/download"
-INSTALL_DIR="/opt/jumpjet"
+INSTALL_DIR="$HOME/.jumpjet"
 
 detect_architecture() {
     if [[ $(uname -m) == 'arm64' ]]; then
@@ -41,12 +41,12 @@ download_and_extract() {
     tar -xzf "$TMP_DIR/$APP_NAME.tar.gz" -C "$TMP_DIR"
     rm -rf "$TMP_DIR/$APP_NAME.tar.gz"
 
-    echo "Moving the binary to $INSTALL_DIR... using sudo"
-    sudo mkdir -p "$INSTALL_DIR"
-    sudo mv "$TMP_DIR"/* "$INSTALL_DIR/"
+    echo "Moving the binary to $INSTALL_DIR..."
+    mkdir -p "$INSTALL_DIR"
+    mv "$TMP_DIR"/* "$INSTALL_DIR/"
 
-    sudo mv "$INSTALL_DIR/$APP_NAME-cli" "$INSTALL_DIR/$APP_NAME" 
-    sudo chmod +x "$INSTALL_DIR/$APP_NAME"
+    mv "$INSTALL_DIR/$APP_NAME-cli" "$INSTALL_DIR/$APP_NAME"
+    chmod +x "$INSTALL_DIR/$APP_NAME"
 
     echo "Cleaning up temporary files..."
     rm -rf "$TMP_DIR"

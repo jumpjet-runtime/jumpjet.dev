@@ -1,12 +1,12 @@
 $APP_NAME = "jumpjet"
 $REPO_URL = "https://github.com/jumpjet-runtime/jumpjet"
 $ASSET_BASE_URL = "https://github.com/jumpjet-runtime/jumpjet/releases/download"
-$INSTALL_DIR = "$env:ProgramFiles\jumpjet"
+$INSTALL_DIR = "$env:LOCALAPPDATA\Programs\jumpjet"
 
 function Download-And-Extract {
 
     Write-Host "Fetching the latest release tag from $REPO_URL..."
-    $LATEST_TAG = (git ls-remote --tags --sort="v:refname" $REPO_URL | Select-String -Pattern "refs/tags/" | ForEach-Object { $_.ToString().Split('/')[-1] } | Select-Object -Last 1)
+    $LATEST_TAG = (git ls-remote --tags --sort="v:refname" $REPO_URL | Select-String -Pattern "refs/tags/" | ForEach-Object { $_.ToString().Split('/')[-1] } | Where-Object { $_ -notmatch '\^\{\}' } | Select-Object -Last 1)
     Write-Host "Latest release tag: $LATEST_TAG"
 
     $TARBALL_URL = "$ASSET_BASE_URL/$LATEST_TAG/$APP_NAME-cli-$LATEST_TAG-windows-x86_64.tar.gz"
@@ -26,6 +26,11 @@ function Download-And-Extract {
         New-Item -Path $INSTALL_DIR -ItemType Directory -Force
     }
     Move-Item -Path "$TMP_DIR\*" -Destination $INSTALL_DIR
+
+    $CLI_EXE_PATH = Join-Path -Path $INSTALL_DIR -ChildPath "$APP_NAME-cli.exe"
+    if (Test-Path $CLI_EXE_PATH) {
+        Move-Item -Path $CLI_EXE_PATH -Destination (Join-Path -Path $INSTALL_DIR -ChildPath "$APP_NAME.exe") -Force
+    }
 
     $EXE_PATH = Join-Path -Path $INSTALL_DIR -ChildPath "$APP_NAME.exe"
     if (Test-Path $EXE_PATH) {
