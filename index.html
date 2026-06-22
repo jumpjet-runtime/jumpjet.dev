@@ -359,11 +359,12 @@
                     const vFov = camera.fov * Math.PI / 180;
                     const hFov = 2 * Math.atan(Math.tan(vFov / 2) * camera.aspect);
                     const fitDist = Math.max(modelRadius / Math.sin(vFov / 2), modelRadius / Math.sin(hFov / 2));
-                    const ZOOM = 4;                         // 4x larger than a full-frame fit (overflows, by design)
+                    const isMobile = w < 640;               // tailwind 'sm' breakpoint
+                    const ZOOM = isMobile ? 3 : 4;          // 4x larger than a full-frame fit (overflows, by design); zoom out on mobile
                     const camZ = fitDist * 1.04 / ZOOM;
                     // pan the frustum so the jet sits where we want in the header (no view rotation)
-                    const SHIFT = 0;                        // horizontal: 0 = centered, 1 = jet center at right edge
-                    const LIFT = 0.25;                      // vertical: raise camera (jet drops slightly in frame)
+                    const SHIFT = isMobile ? -0.5 : 0;      // horizontal: 0 = centered, 1 = jet at right edge; nudge left on mobile
+                    const LIFT = isMobile ? 0.65 : 0.25;    // vertical: raise camera (jet drops in frame); lower on mobile
                     const offsetX = SHIFT * camZ * Math.tan(hFov / 2);
                     const offsetY = LIFT * camZ * Math.tan(vFov / 2);
                     camera.position.set(-offsetX, offsetY, camZ);
@@ -380,7 +381,7 @@
                 const t = clock.getElapsedTime();
                 const dt = t - lastT; lastT = t;
                 if (mixer) mixer.update(dt);                 // advances gear clip; clamps at end then holds
-                jet.rotation.z = t * 0.3;                   // continuous aileron roll about nose-tail axis
+                jet.rotation.z = Math.sin(t * 0.5) * 0.9;   // bank back and forth about the nose-tail axis
                 pivot.position.y = Math.sin(t * 0.7) * 0.1; // gentle bob
 
                 renderer.setRenderTarget(rt);
