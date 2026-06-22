@@ -52,6 +52,9 @@
         }
     </script>
 
+    <!-- syntax highlighting (rust + javascript are in the default 'common' build) -->
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+
     <style type="text/css">
         @font-face {
             font-family: 'Hurme FIN 1b Extended';
@@ -75,6 +78,20 @@
         body { background-color: #F2F2EF; }
 
         .install-cmd { display: none; }
+        .demo-code { display: none; }
+
+        /* highlight.js theme — brand palette on the charcoal demo panel */
+        .hljs { background: transparent; color: #F2F2EF; padding: 0; }
+        .hljs-comment, .hljs-quote { color: rgba(242, 242, 239, 0.4); font-style: italic; }
+        .hljs-keyword, .hljs-built_in, .hljs-type { color: #FF4500; }
+        .hljs-literal, .hljs-number { color: #FF7A4D; }
+        .hljs-string, .hljs-meta .hljs-string { color: #E8B98A; }
+        .hljs-title, .hljs-title.function_, .hljs-function .hljs-title { color: #F2F2EF; font-weight: 700; }
+        .hljs-title.class_, .hljs-class .hljs-title { color: #FFD9C7; }
+        .hljs-attr, .hljs-attribute, .hljs-property, .hljs-variable, .hljs-params { color: #F2F2EF; }
+        .hljs-meta, .hljs-symbol { color: rgba(242, 242, 239, 0.6); }
+        .hljs-emphasis { font-style: italic; }
+        .hljs-strong { font-weight: 700; }
     </style>
 
     <script>
@@ -93,10 +110,24 @@
             })
         }
 
+        function selectLang(lang) {
+            document.querySelectorAll('.demo-code').forEach(e => {
+                e.style.display = e.getAttribute('data-lang') === lang ? 'block' : 'none'
+            })
+            document.querySelectorAll('.select-lang').forEach(e => {
+                const active = e.getAttribute('data-lang') === lang
+                e.classList.toggle('text-offwhite', active)
+                e.classList.toggle('text-offwhite/40', !active)
+            })
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
+            if (window.hljs) hljs.highlightAll()
             selectOS(getOS())
+            selectLang('rust')
             document.addEventListener('click', function (e) {
                 if (e.target.classList.contains('select-os')) selectOS(e.target.getAttribute('data-os'))
+                if (e.target.classList.contains('select-lang')) selectLang(e.target.getAttribute('data-lang'))
             })
         })
     </script>
@@ -145,9 +176,91 @@
         </div>
     </section>
 
-    <!-- ENVIRONMENT & APIS -->
+    <!-- EXPLAINER -->
     <section class="relative -mt-3 sm:-mt-10 rounded-t-[24px] bg-offwhite">
-        <div class="w-[90%] mx-auto pt-20 sm:pt-14 pb-24 sm:pb-14">
+        <div class="w-[90%] mx-auto pt-20 sm:pt-14 pb-8">
+
+            <h2 class="font-wide uppercase text-charcoal text-2xl sm:text-3xl leading-none text-center">How does it work?</h2>
+
+            <div class="mt-8 max-w-2xl mx-auto space-y-4 text-[0.7rem] sm:text-xs text-charcoal/75 leading-relaxed">
+                <p>Until now, in order to build games for multiple platforms, developers had to write platform-specific code or rely on an engine to provide that support. And while libraries like SDL and raylib exist, they don't solve the toolchain problem.</p>
+                <p>Jumpjet bridges the gap between high-level game development and low-level hardware access, allowing developers to write code once and deploy it across multiple platforms.</p>
+                <p>Beyond just enabling multi-platform support, Jumpjet provides a host of APIs and tools that make it easy to build games.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- DEMO -->
+    <section class="bg-charcoal text-offwhite">
+        <div class="w-[90%] mx-auto py-20 sm:py-14">
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 items-stretch">
+
+                <!-- code -->
+                <div class="rounded-lg border border-offwhite/15 flex flex-col">
+                    <!-- language tabs -->
+                    <div class="flex flex-wrap gap-4 px-6 py-3 text-[0.7rem] sm:text-xs uppercase border-b border-offwhite/15">
+                        <button class="select-lang cursor-pointer transition-colors select-none" data-lang="rust">Rust</button>
+                        <button class="select-lang cursor-pointer transition-colors select-none" data-lang="javascript">JS</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <pre class="demo-code p-6 text-[0.7rem] sm:text-xs leading-relaxed" data-lang="rust"><code class="language-rust">use wit_bindgen::generate;
+
+use crate::exports::jumpjet::runtime::client::Guest;
+use crate::jumpjet::runtime::debug::log;
+
+generate!({
+    world: "game",
+    path: ".jumpjet/wit",
+    generate_all
+});
+export!(Game);
+
+struct Game;
+
+impl Guest for Game {
+    fn init() -> Result<(), String> {
+        log("init");
+        Ok(())
+    }
+
+    fn update(time: f64, delta_time: f64) {
+        log(&format!("update: {:?}", time));
+    }
+
+    fn render(time: f64, alpha: f64) {
+        log(&format!("render: {:?}", time));
+    }
+}</code></pre>
+                        <pre class="demo-code p-6 text-[0.7rem] sm:text-xs leading-relaxed" data-lang="javascript"><code class="language-javascript">import { log } from 'jumpjet:runtime/debug'
+
+export const guest = {
+  init() {
+    log('init')
+  },
+  update(time, deltaTime) {
+    log(`update ${time}`)
+  },
+  render(time, deltaTime) {
+    log(`render ${time}`)
+  }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- preview (placeholder; wire up the running demo here) -->
+                <div id="demo-preview"
+                     class="rounded-lg border border-offwhite/30 min-h-[16rem] flex items-center justify-center text-[0.7rem] text-offwhite/40 uppercase">
+                    <!-- TODO: mount the running demo here -->
+                    Demo coming soon
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ENVIRONMENT & APIS -->
+    <section class="bg-offwhite">
+        <div class="w-[90%] mx-auto pt-12 pb-24 sm:pb-14">
 
             <h2 class="font-wide uppercase text-charcoal text-2xl sm:text-3xl leading-none">Environment &amp; APIs</h2>
 
